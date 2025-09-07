@@ -47,7 +47,14 @@ Tesla vehicle management tools using the Tessie API for real-time monitoring and
 
 ## Requirements
 
-- `TESSIE_TOKEN` secret for API authentication
+### Secrets Configuration in Arcade
+
+Configure the following secret in your Arcade environment:
+
+1. **TESSIE_TOKEN**: Your Tessie API token
+   - Get your token from [https://dash.tessie.com/settings/developer](https://dash.tessie.com/settings/developer)
+   - Add it to your Arcade project secrets in the dashboard
+   - Required for all vehicle operations
 
 ## Development
 
@@ -84,15 +91,26 @@ arcade serve
 arcade serve --reload
 ```
 
-## Deployment
+## Deployment to Arcade
+
+### Prerequisites
+- Arcade account and project set up
+
+### Deploy Steps
 
 ```bash
-# Deploy to Arcade cloud
+# Deploy toolkit to Arcade cloud
 arcade deploy
 
-# Verify deployment
+# Verify deployment status
 arcade worker list
+
+# Logs
+arcade worker logs tessie
 ```
+
+### Configuration
+- Ensure `TESSIE_TOKEN` secret is configured in your Arcade project
 
 ## Evaluation
 
@@ -101,4 +119,31 @@ The toolkit includes comprehensive evaluation suites:
 - `evals/eval_drivers.py` - Driver management evaluations  
 - `evals/eval_invitation.py` - Invitation management evaluations
 
+## Documentation
+
 Read the docs on how to create a toolkit [here](https://docs.arcade.dev/home/build-tools/create-a-toolkit)
+
+Learn how to write an agent that uses this toolkit:
+- [Building agents with OpenAI Agents](https://docs.arcade.dev/home/oai-agents/overview)
+- [Hosting](https://docs.arcade.dev/home/hosting-overview)
+- [Quickstart](https://docs.arcade.dev/home/quickstart)
+
+### Example direct
+```js
+import Arcade from '@arcadeai/arcadejs';
+
+const client = new Arcade();
+const USER_ID = 'me@example.com';
+
+export const listDrivers = async () => {
+  const result = await client.tools.execute({
+    tool_name: 'Tessie.ListDriver@0.1.0',
+    input: {
+      vin: "123456"
+    },
+    user_id: USER_ID,
+  });
+
+  console.log(result);
+};
+```
