@@ -82,8 +82,8 @@ class TessieClient:
         data = await self.do_request("GET", url)
 
         return Battery(
-            battery_level=data["response"]["charge_state"]["battery_level"],
-            battery_range=data["response"]["charge_state"]["battery_range"],
+            battery_level=f'{data["response"]["charge_state"]["battery_level"]:.9f}',
+            battery_range=f'{data["response"]["charge_state"]["battery_range"]:.9f}',
         )
 
 

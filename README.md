@@ -55,6 +55,9 @@ Tesla vehicle management tools using the Tessie API for real-time monitoring and
 # Create env
 uv venv --seed -p 3.13
 
+# Activate the env
+source .venv/bin/activate
+
 # Install dependencies
 make install
 
